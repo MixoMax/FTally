@@ -6,20 +6,32 @@
     <script>
 
       function updateCount(count) {
-        document.getElementById("count").innerHTML = count;
+        fetch("/get", { method: "GET" })
+          .then(response => response.text())
+          .then(count => {
+            document.getElementById("count").innerHTML = count;
+          });
       }
+
+      setInterval(updateCount, 5000);
 
       function incrementCount() {
         fetch("/add", { method: "POST" })
           .then(response => response.text())
-          .then(count => updateCount(count));
+          .then(updateCount());
         }
       
-        function decrementCount() {
+      function decrementCount() {
           fetch("/sub", { method: "POST" })
             .then(response => response.text())
-            .then(count => updateCount(count));
+            .then(updateCount());
         }
+      
+      function export_to_csv() {
+        fetch("/export", { method: "Post" })
+          .then(response => response.text())
+      }
+
     </script>
 </head>
 
@@ -28,4 +40,5 @@
     <p> count: </p> <span id="count">0</span>
     <button id="add" onclick="incrementCount()">+</button>
     <button id="subtract" onclick="decrementCount()">-</button>
+    <button id="export" onclick="export_to_csv()">Export</button>
 </body>
