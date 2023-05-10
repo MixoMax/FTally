@@ -1,0 +1,46 @@
+body{
+    background-color: rgb(32, 33, 35);
+}
+
+h1{
+    color: white;
+}
+
+#count{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    color: white;
+}
+
+#count-text{
+    position: absolute;
+    left: 50%;
+    top: 37%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: white;
+}
+
+#buttons{
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+}
+
+button{
+    width: 140px;
+    height: 70px;
+    background-color: rgb(40, 40, 41);
+    border-radius: 15px;
+    font-size: 45px;
+    border: 2.5px solid rgb(0, 0, 0);
+}
+
+button:hover{
+    background-color: rgb(52, 53, 54);
+    border: 3px solid rgb(17, 17, 17);
+}

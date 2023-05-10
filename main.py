@@ -117,6 +117,10 @@ def get():
     return str(counter.count), 200
 
 
+@app.route("/stylesheet.css")
+def stylesheet():
+    return app.send_static_file("stylesheet.css")
+
 
 if __name__ == "__main__":
     app.run(debug = True)

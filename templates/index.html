@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"></html>
 <head>
+    <link rel="stylesheet" href="./stylesheet.css" />
     <meta charset="UTF-8">
     <title>Document</title>
     <script>
@@ -37,8 +38,10 @@
 
 <body>
     <h1>FTally</h1>
-    <p> count: </p> <span id="count">0</span>
-    <button id="add" onclick="incrementCount()">+</button>
-    <button id="subtract" onclick="decrementCount()">-</button>
-    <button id="export" onclick="export_to_csv()">Export</button>
+    <p id="count-text"> COUNT: </p> <span id="count">0</span>
+    <div id="buttons">
+      <button id="add" onclick="incrementCount()">+</button>
+      <button id="subtract" onclick="decrementCount()">-</button>
+      <button id="export" onclick="export_to_csv()">Export</button>
+    </div>
 </body>
