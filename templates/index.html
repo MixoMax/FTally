@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+
+      function updateCount(count) {
+        document.getElementById("count").innerHTML = count;
+      }
+
+      function incrementCount() {
+        fetch("/add", { method: "POST" })
+          .then(response => response.text())
+          .then(count => updateCount(count));
+        }
+      
+        function decrementCount() {
+          fetch("/sub", { method: "POST" })
+            .then(response => response.text())
+            .then(count => updateCount(count));
+        }
+    </script>
+</head>
+
+<body>
+    <h1>FTally</h1>
+    <p> count: </p> <span id="count">0</span>
+    <button id="add" onclick="incrementCount()">+</button>
+    <button id="subtract" onclick="decrementCount()">-</button>
+</body>
