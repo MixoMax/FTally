@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import os
@@ -107,10 +107,12 @@ def sub():
     counter.sub()
     return "OK", 204
 
-@app.route("/export", methods = ["POST"])
+@app.route("/export", methods = ["GET"])
 def export():
     counter.export_csv()
-    return "OK", 204
+    path = os.path.join("export.csv")
+    print(path)
+    return send_file(path, as_attachment=False, download_name="count.csv")
 
 @app.route("/get", methods = ["GET"])
 def get():
