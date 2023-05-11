@@ -2,9 +2,22 @@
 <html lang="en"></html>
 <head>
     <link rel="stylesheet" href="./stylesheet.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <meta charset="UTF-8">
     <title>Document</title>
     <script>
+
+      window.onload = function() {
+        updateCount();
+      };
+
+      window.onkeypress = function(e) {
+        if (e.key == "+") {
+          incrementCount();
+        } else if (e.key == "-") {
+          decrementCount();
+        }
+      };
 
       function updateCount(count) {
         fetch("/get", { method: "GET" })
@@ -29,8 +42,16 @@
         }
       
       function export_to_csv() {
-        fetch("/export", { method: "Post" })
-          .then(response => response.text())
+        fetch("/export", { method: "GET" })
+          .then(response =>
+            response.blob().then(blob => {
+              let url = window.URL.createObjectURL(blob);
+              let a = document.createElement("a");
+              a.href = url;
+              a.download = "count.csv";
+              a.click();
+            })
+          )
       }
 
     </script>
@@ -42,6 +63,6 @@
     <div id="buttons">
       <button id="add" onclick="incrementCount()">+</button>
       <button id="subtract" onclick="decrementCount()">-</button>
-      <button id="export" onclick="export_to_csv()">Export</button>
+      <button id="export" onclick="export_to_csv()"><span id="download-icon" class="material-symbols-outlined">download</span></button>
     </div>
 </body>

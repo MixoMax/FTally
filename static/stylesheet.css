@@ -13,6 +13,8 @@ h1{
     transform: translate(-50%, -50%);
     font-size: 100px;
     color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
 }
 
 #count-text{
@@ -22,6 +24,8 @@ h1{
     transform: translate(-50%, -50%);
     font-size: 50px;
     color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
 }
 
 #buttons{
@@ -29,6 +33,24 @@ h1{
     left: 50%;
     top: 60%;
     transform: translate(-50%, -50%);
+}
+
+#export{
+    width: 70px;
+    height: 70px;
+    border: 2.5px solid rgb(0, 0, 0);
+    border-radius: 7px 15px 15px 7px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 45px;
+}
+
+#subtract{
+    border-radius: 7px;
+}
+
+#add{
+    border-radius: 15px 7px 7px 15px;
 }
 
 button{
@@ -40,7 +62,20 @@ button{
     border: 2.5px solid rgb(0, 0, 0);
 }
 
+#export:hover{
+    background-color: #0062cc;
+    border: 3px solid rgb(17, 17, 17);
+}
+
 button:hover{
     background-color: rgb(52, 53, 54);
     border: 3px solid rgb(17, 17, 17);
+}
+
+#download-icon{
+    position: relative;
+    left: calc((64px - 64.8px) / 2);
+    top: calc((58px - 64.8px) / 2);
+    color: #fff;
+    scale: 270%;
 }
