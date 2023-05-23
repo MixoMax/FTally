@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheet_mobile.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <title>Document</title>
+    <script>
+
+        window.onload = function() {
+          updateCount();
+        };
+  
+        window.onkeypress = function(e) {
+          if (e.key == "+") {
+            incrementCount();
+          } else if (e.key == "-") {
+            decrementCount();
+          }
+        };
+  
+        function updateCount(count) {
+          fetch("/get", { method: "GET" })
+            .then(response => response.text())
+            .then(count => {
+              document.getElementById("count").innerHTML = count;
+            });
+        }
+  
+        setInterval(updateCount, 5000);
+  
+        function incrementCount() {
+          fetch("/add", { method: "POST" })
+            .then(response => response.text())
+            .then(updateCount());
+          }
+        
+        function decrementCount() {
+            fetch("/sub", { method: "POST" })
+              .then(response => response.text())
+              .then(updateCount());
+          }
+        
+        function export_to_csv() {
+          fetch("/export", { method: "GET" })
+            .then(response =>
+              response.blob().then(blob => {
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement("a");
+                a.href = url;
+                a.download = "count.csv";
+                a.click();
+              })
+            )
+        }
+  
+    </script>
+</head>
+
+<body>
+    <h1>FTally</h1>
+ <p id="count-text"> COUNT: </p> <span id="count">0</span>
+ 
+    <div id="buttons">
+        <button id="export" onclick="export_to_csv()"><span id="download-icon" class="material-symbols-outlined">download</span></button>
+        <button id="sub" onclick="decrementCount()">-</button>
+      <button id="add" onclick="incrementCount()">+</button>
+    </div>
+</body>
+</html>

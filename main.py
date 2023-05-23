@@ -5,6 +5,7 @@ import os
 import json
 import time
 import csv
+import requests
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///counter.sqlite3"
@@ -97,6 +98,10 @@ counter = Counter(time.time(), DB())
 def index():
     return render_template("index.html")
 
+@app.route("/mobile")
+def index_mobile():
+    return render_template("index_mobile.html")
+
 @app.route("/add", methods = ["POST"])
 def add():
     counter.add()
@@ -119,9 +124,18 @@ def get():
     return str(counter.count), 200
 
 
+@app.route("/ip")
+def ip():
+    return requests.get("https://api.ipify.org").text
+
+
 @app.route("/stylesheet.css")
 def stylesheet():
     return app.send_static_file("stylesheet.css")
+
+@app.route("/stylesheet_mobile.css")
+def stylesheet_mobile():
+    return app.send_static_file("stylesheet_mobile.css")
 
 
 if __name__ == "__main__":
