@@ -32,13 +32,17 @@
       function incrementCount() {
         fetch("/add", { method: "POST" })
           .then(response => response.text())
-          .then(updateCount());
+          .then(count => {
+            document.getElementById("count").innerHTML = count;
+          });
         }
       
       function decrementCount() {
           fetch("/sub", { method: "POST" })
             .then(response => response.text())
-            .then(updateCount());
+            .then(count => {
+              document.getElementById("count").innerHTML = count;
+            });
         }
       
       function export_to_csv() {

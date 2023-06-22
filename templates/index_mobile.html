@@ -31,16 +31,20 @@
         setInterval(updateCount, 500);
   
         function incrementCount() {
-          fetch("/add", { method: "POST" })
+        fetch("/add", { method: "POST" })
+          .then(response => response.text())
+          .then(count => {
+            document.getElementById("count").innerHTML = count;
+          });
+        }
+      
+      function decrementCount() {
+          fetch("/sub", { method: "POST" })
             .then(response => response.text())
-            .then(updateCount());
-          }
-        
-        function decrementCount() {
-            fetch("/sub", { method: "POST" })
-              .then(response => response.text())
-              .then(updateCount());
-          }
+            .then(count => {
+              document.getElementById("count").innerHTML = count;
+            });
+        }
         
         function export_to_csv() {
           fetch("/export", { method: "GET" })
@@ -63,8 +67,8 @@
  <p id="count-text"> COUNT: </p> <span id="count">0</span>
  
     <div id="buttons">
-        <button id="export" onclick="export_to_csv()"><span id="download-icon" class="material-symbols-outlined">dwnld</span></button>
-        <button id="sub" onclick="decrementCount()">-</button>
+      <button id="export" onclick="export_to_csv()"><span id="download-icon" class="material-symbols-outlined">download</span></button>
+      <button id="sub" onclick="decrementCount()">-</button>
       <button id="add" onclick="incrementCount()">+</button>
     </div>
 </body>

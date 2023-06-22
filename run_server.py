@@ -1,8 +1,5 @@
-import os
-import requests
-import sys
+from main import *
 
-#external_ip = requests.get('https://api.ipify.org').text
-#print("External IP: " + external_ip)
+port = 80
 
-os.system("python -m flask --app main.py run --host=0.0.0.0 --port=80 --with-threads")
+app.run(host="0.0.0.0", port=port)

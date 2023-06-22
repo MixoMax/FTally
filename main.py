@@ -105,12 +105,12 @@ def index_mobile():
 @app.route("/add", methods = ["POST"])
 def add():
     counter.add()
-    return "OK", 204
+    return str(counter.count), 200
 
 @app.route("/sub", methods = ["POST"])
 def sub():
     counter.sub()
-    return "OK", 204
+    return str(counter.count), 200
 
 @app.route("/export", methods = ["GET"])
 def export():
