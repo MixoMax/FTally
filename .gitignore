@@ -1,7 +1,0 @@
-*.csv
-*.sqlite3
-__pycache__/
-*.pyc
-*.sqlite3
-*.csv
-*.sqlite3

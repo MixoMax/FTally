@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Tally App</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        #tally {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+        button {
+            padding: 0.5em 1em;
+            margin: 0 0.5em;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>Tally App</h1>
+        <div id="tally">0</div>
+        <button onclick="increment()">Increment</button>
+        <button onclick="decrement()">Decrement</button>
+        <button onclick="exportCSV()">Export CSV</button>
+        <button onclick="exportXLSX()">Export XLSX</button>
+
+        <script>
+            const tallyDisplay = document.getElementById('tally');
+
+            async function getTally() {
+                const response = await fetch('/tally');
+                const data = await response.json();
+                tallyDisplay.textContent = data.value;
+            }
+
+            async function increment() {
+                await fetch('/tally/increment', { method: 'POST' });
+                getTally();
+            }
+
+            async function decrement() {
+                await fetch('/tally/decrement', { method: 'POST' });
+                getTally();
+            }
+
+            async function exportCSV() {
+                const response = await fetch('/tally/export/csv');
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tally.csv';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+
+            async function exportXLSX() {
+                const response = await fetch('/tally/export/xlsx');
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tally.xlsx';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+
+            document.addEventListener('DOMContentLoaded', setInterval(getTally, 500));
+        </script>
+    </body>
+</html>
