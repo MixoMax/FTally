@@ -26,6 +26,7 @@
 
         <script>
             const tallyDisplay = document.getElementById('tally');
+            const ws = new WebSocket("ws://localhost:8000/ws")
 
             async function getTally() {
                 const response = await fetch('/tally');
@@ -34,13 +35,11 @@
             }
 
             async function increment() {
-                await fetch('/tally/increment', { method: 'POST' });
-                getTally();
+                ws.send("increment")
             }
 
             async function decrement() {
-                await fetch('/tally/decrement', { method: 'POST' });
-                getTally();
+                ws.send("decrement")
             }
 
             async function exportCSV() {
@@ -54,6 +53,11 @@
                 window.URL.revokeObjectURL(url);
             }
 
+            ws.onmessage = function (event) {
+                const data = event.data
+                tallyDisplay.textContent = data.split(" ")[1]
+            }
+
             async function exportXLSX() {
                 const response = await fetch('/tally/export/xlsx');
                 const blob = await response.blob();
@@ -64,8 +68,6 @@
                 a.click();
                 window.URL.revokeObjectURL(url);
             }
-
-            document.addEventListener('DOMContentLoaded', setInterval(getTally, 500));
         </script>
     </body>
 </html>

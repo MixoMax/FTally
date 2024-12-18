@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 import uvicorn
@@ -109,6 +109,44 @@ async def catch_all(path):
     if not path:
         path = "index.html"
     return FileResponse(path)
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        if data == "increment":
+            """Increments the tally value by 1 and stores it in the database."""
+            cursor.execute("SELECT value FROM tally ORDER BY id DESC LIMIT 1")
+            data = cursor.fetchone()
+            if not data:
+                last_value = 0
+            else:
+                last_value = data[0]
+            
+            new_value = last_value + 1
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            cursor.execute("INSERT INTO tally (value, timestamp) VALUES (?, ?)", (new_value, timestamp))
+            conn.commit()
+        elif data == "decrement":
+            """Decrements the tally value by 1 and stores it in the database."""
+            cursor.execute("SELECT value FROM tally ORDER BY id DESC LIMIT 1")
+            data = cursor.fetchone()
+            if not data:
+                last_value = 0
+            else:
+                last_value = data[0]
+
+            new_value = last_value - 1
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            cursor.execute("INSERT INTO tally (value, timestamp) VALUES (?, ?)", (new_value, timestamp))
+            conn.commit()
+        
+        """Retrieves the current tally value and timestamp."""
+        cursor.execute("SELECT value, timestamp FROM tally ORDER BY id DESC LIMIT 1")
+        result = cursor.fetchone()
+        await websocket.send_text(f"value {result[0] if result else 0}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
